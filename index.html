@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NADRA Islamabad - Full Registration Portal</title>
+  <style>
+    :root {
+      --primary-blue: #005b96;
+      --dark-blue: #003f63;
+      --success-green: #28a745;
+      --click-color: #ff5722; 
+      --light-bg: #f4f7f6;
+      --white: #ffffff;
+    }
+
+    body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--light-bg); margin: 0; padding: 0; }
+    header { background-color: var(--primary-blue); color: white; text-align: center; padding: 20px; }
+    
+    nav { background-color: var(--dark-blue); display: flex; justify-content: center; gap: 20px; padding: 15px; position: sticky; top: 0; z-index: 1000; }
+    nav a { color: white; text-decoration: none; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 14px; text-transform: uppercase; }
+    nav a:hover { color: #ffd700; }
+
+    main { padding: 30px 20px; max-width: 1000px; margin: 0 auto; min-height: 80vh; }
+    section { display: none; background: var(--white); padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+    section.active { display: block; animation: fadeIn 0.4s ease; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Home Grid Style */
+    .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 30px; }
+    .card { background: #fff; padding: 30px; border-radius: 12px; text-align: center; border: 1px solid #eee; transition: 0.3s; }
+    
+    /* Button Styling & Click Effect */
+    .primary-btn { 
+      background: var(--primary-blue); 
+      color: white; 
+      padding: 12px 25px; 
+      border: none; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-size: 16px; 
+      font-weight: bold; 
+      width: 100%; 
+      transition: all 0.2s; 
+      margin-top: 10px;
+    }
+    
+    .btn-active {
+      background-color: var(--click-color) !important;
+      transform: scale(0.96);
+    }
+
+    /* Form Design */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .full-width { grid-column: span 2; }
+    label { font-weight: bold; display: block; margin-bottom: 8px; font-size: 14px; color: var(--dark-blue); }
+    input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; background-color: #fcfcfc; }
+    input:focus { border-color: var(--primary-blue); outline: none; background-color: #fff; }
+
+    #cardTypeBox { background: #e7f3ff; border: 2px solid var(--primary-blue); padding: 15px; border-radius: 8px; margin-bottom: 25px; text-align: center; display: none; }
+
+    .coordinator-card { background: #fff8e1; border: 1px dashed #ffa000; padding: 20px; border-radius: 8px; text-align: center; }
+    .coordinator-name { font-size: 24px; color: #b45309; font-weight: bold; }
+
+    /* Helpline Specific Styles */
+    .contact-item { margin: 20px 0; font-size: 18px; color: var(--dark-blue); }
+    .success-msg { display: none; color: var(--success-green); font-weight: bold; margin-top: 15px; text-align: center; }
+
+    footer { text-align: center; background-color: var(--dark-blue); color: white; padding: 20px; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>NADRA Islamabad Digital Portal</h1>
+  </header>
+
+  <nav>
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="showPage('register')">Registration</a>
+    <a onclick="showPage('track')">Track ID</a>
+    <a onclick="showPage('sports')">Sports Gala</a>
+    <a onclick="showPage('help')">Helpline</a>
+  </nav>
+
+  <main>
+    <section id="home" class="active">
+      <h2 style="text-align: center;">Welcome to Online Services</h2>
+      <div class="grid-container">
+        <div class="card">
+          <h3>Apply Now</h3>
+          <p>Complete the registration for Smart Card or CNIC.</p>
+          <button class="primary-btn" onclick="navWithEffect(this, 'register')">Open Form</button>
+        </div>
+        <div class="card">
+          <h3>Track ID</h3>
+          <p>Check the status of your submitted application.</p>
+          <button class="primary-btn" onclick="navWithEffect(this, 'track')" style="background:#6c757d">Track Status</button>
+        </div>
+        <div class="card">
+          <h3>Sports Gala </h3>
+          <p>Register for Islamabad Sports Week 2026 events.</p>
+          <button class="primary-btn" onclick="navWithEffect(this, 'sports')" style="background:var(--success-green)">Join Event</button>
+        </div>
+        <div class="card">
+          <h3>Helpline</h3>
+          <p>Need assistance? Contact our support team.</p>
+          <button class="primary-btn" onclick="navWithEffect(this, 'help')" style="background:#ff9800">Get Help</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="register">
+      <h2 style="border-bottom: 2px solid var(--primary-blue); padding-bottom: 10px;">Identity Registration Form</h2>
+      <div id="cardTypeBox">
+        <div id="displayCardName" style="font-weight:bold; font-size:18px;"></div>
+        <p id="displayCardNote" style="margin: 0; font-size: 14px;"></p>
+      </div>
+      <form onsubmit="event.preventDefault(); alert('Registration Successfully Submitted for Islamabad District!'); showPage('home');">
+        <div class="form-grid">
+          <div><label>Full Name:</label><input type="text" placeholder="Enter your full name" required></div>
+          <div><label>Father's Name:</label><input type="text" placeholder="Enter father's name" required></div>
+          <div><label>Father's CNIC:</label><input type="text" placeholder="XXXXX-XXXXXXX-X" required></div>
+          <div><label>Mother's Name:</label><input type="text" placeholder="Enter mother's name" required></div>
+          <div><label>Mother's CNIC:</label><input type="text" placeholder="XXXXX-XXXXXXX-X" required></div>
+          <div><label>Age:</label><input type="number" id="userAge" oninput="checkAgeLogic()" placeholder="Enter your age" required></div>
+          <div><label>Gender:</label><select required><option value="">Select Gender</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+          <div class="full-width"><label>Postal Address (Islamabad Only):</label><textarea rows="3" required>Islamabad, Pakistan</textarea></div>
+        </div>
+        <button type="submit" class="primary-btn">Submit Information</button>
+        <button type="button" class="primary-btn" style="background:#6c757d" onclick="showPage('home')">Cancel</button>
+      </form>
+    </section>
+
+    <section id="track">
+      <h2>Track Application</h2>
+      <div style="max-width: 500px; margin: 0 auto; text-align: center;">
+        <label>Enter Tracking ID:</label>
+        <input type="text" placeholder="NADRA-ISB-XXXXX">
+        <button class="primary-btn" onclick="navWithEffect(this, 'home')">Find Application</button>
+      </div>
+    </section>
+
+    <section id="sports">
+      <div style="text-align: center;">
+        <h2>Sports Gala 2026</h2>
+<img src="C:\Users\inn\Pictures\Screenshots\Screenshot 2026-01-07 122344.png".jpg alt="Sports Gala" width="400" style="margin-bottom: 20px; border-radius: 8px;">
+     <div class="coordinator-card">
+          <p style="margin: 0; font-size: 12px; text-transform: uppercase;">Sports Coordinator</p>
+          <div class="coordinator-name">Hashim Ayub</div>
+          <p>Islamabad Headquarters</p>
+        </div>
+        <button class="primary-btn" style="width: auto; padding: 12px 50px;" onclick="navWithEffect(this, 'home')">Back to Home</button>
+      </div>
+    </section>
+<img src="C:\Users\inn\Pictures\Screenshots\Screenshot 2026-01-07 122544.png".jpg alt="Sports Gala" width="250" style="margin-bottom: 20px; border-radius: 8px;">
+<img src="C:\Users\inn\Pictures\Screenshots\Screenshot 2026-01-07 122532.png".jpg alt="Sports Gala" width="250" style="margin-bottom: 20px; border-radius: 8px;">
+<img src="C:\Users\inn\Pictures\Screenshots\Screenshot 2026-01-07 123728.png".jpg alt="Sports Gala" width="250" style="margin-bottom: 20px; border-radius: 8px;">
+<img src="C:\Users\inn\Pictures\Screenshots\Screenshot 2026-01-07 122553.png".jpg alt="Sports Gala" width="250" style="margin-bottom: 20px; border-radius: 8px;">
+    <section id="help">
+      <h2 style="border-bottom: 2px solid var(--primary-blue); padding-bottom: 10px;">Contact Helpline</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: center;">
+        <div style="flex: 1; min-width: 300px;">
+          <div class="contact-item"><strong> Phone:</strong> +92 51 111 786 100</div>
+          <div class="contact-item"><strong> Email:</strong> support@nadra-islamabad.gov.pk</div>
+          <p>Our representatives are available 24/7 to assist you with your queries.</p>
+        </div>
+        
+        <div style="flex: 1; min-width: 300px;">
+          <form id="helpForm" onsubmit="handleHelpSubmit(event)">
+            <label>Full Name:</label>
+            <input type="text" placeholder="Your Name" required>
+            <label>Message:</label>
+            <textarea rows="4" placeholder="How can we help you?" required></textarea>
+            <button type="submit" class="primary-btn">Send Message</button>
+            <div id="helpSuccess" class="success-msg">Our employee will contact you very soon.</div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; 2026 NADRA Islamabad - Technology Unit</footer>
+
+  <script>
+    function navWithEffect(btn, pageId) {
+      btn.classList.add('btn-active');
+      setTimeout(() => {
+        showPage(pageId);
+        btn.classList.remove('btn-active');
+      }, 200);
+    }
+
+    function showPage(pageId) {
+      const sections = document.querySelectorAll("section");
+      sections.forEach(sec => sec.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      // Reset success message when visiting help page
+      if(pageId === 'help') document.getElementById('helpSuccess').style.display = 'none';
+    }
+
+    function handleHelpSubmit(e) {
+      e.preventDefault();
+      document.getElementById('helpSuccess').style.display = 'block';
+      e.target.reset();
+    }
+
+    function checkAgeLogic() {
+      const age = document.getElementById('userAge').value;
+      const box = document.getElementById('cardTypeBox');
+      const title = document.getElementById('displayCardName');
+      if (!age || age < 1) { box.style.display = "none"; return; }
+      box.style.display = "block";
+      if (age < 18) {
+        title.innerText = " Smart Card Eligibility (Juvenile)";
+        title.style.color = "#e67e22";
+        box.style.borderColor = "#e67e22";
+      } else {
+        title.innerText = " CNIC Eligibility (Adult)";
+        title.style.color = "#005b96";
+        box.style.borderColor = "#005b96";
+      }
+    }
+  </script>
+</body>
+</html>
